@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Amar Skin Clinic - Clinic Catalyst Proposal</title>
+<link rel="icon" type="image/png" href="https://aiwithsoulofficial.github.io/clinic-catalyst/favicon.png">
+<link rel="apple-touch-icon" href="https://aiwithsoulofficial.github.io/clinic-catalyst/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0A2A28;
+  --dark-alt: #0D3D38;
+  --teal: #00B4A0;
+  --teal-bright: #00D4BC;
+  --peach: #E8A87C;
+  --peach-light: #F5C7A0;
+  --white: #FFFFFF;
+  --text-faint: rgba(255,255,255,0.6);
+  --text-mid: rgba(255,255,255,0.85);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Open Sans',sans-serif; background:#000; color:var(--white); overflow:hidden; }
+
+/* DECK */
+.deck { height:100vh; overflow-y:auto; scroll-snap-type:y mandatory; }
+.slide { height:100vh; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+
+/* CANVA IMAGE SLIDES */
+.slide-img { padding:0; }
+.slide-img img { width:100%; height:100%; object-fit:contain; background:#000; }
+
+/* HTML SLIDES */
+.slide-html { padding:3rem 4rem; background:var(--dark); }
+.slide-html.alt { background:var(--dark-alt); }
+.slide-html.teal-bg { background:linear-gradient(135deg, #073B36 0%, #0A2A28 100%); }
+.slide-html { background:linear-gradient(160deg, #0A2A28 0%, #0E3D3A 40%, #0A2A28 100%); }
+.slide-html.alt { background:linear-gradient(160deg, #0D3D38 0%, #0A2A28 50%, #0D3D38 100%); }
+.inner { max-width:1100px; width:100%; position:relative; z-index:2; }
+
+/* DECORATIVE */
+.dot-overlay { position:absolute; inset:0; opacity:0.05; background-image:radial-gradient(circle,var(--teal) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; }
+.glow { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(0,180,160,0.12) 0%,transparent 70%); pointer-events:none; }
+.glow-tl { top:-200px; left:-200px; }
+.glow-br { bottom:-200px; right:-200px; }
+
+/* TYPOGRAPHY */
+.label { font-family:'Montserrat',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--teal-bright); margin-bottom:0.75rem; }
+.label-peach { color:var(--peach); }
+h2 { font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:800; text-transform:uppercase; line-height:1.1; margin-bottom:1rem; }
+h3 { font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.6rem; }
+.teal { color:var(--teal-bright); }
+.peach { color:var(--peach); }
+p { font-size:0.9rem; color:var(--text-mid); font-weight:300; line-height:1.8; }
+
+/* LAYOUT */
+.split { display:grid; grid-template-columns:2fr 3fr; gap:3rem; align-items:center; }
+.split-even { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:center; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+.mt-1 { margin-top:1rem; }
+.mt-2 { margin-top:2rem; }
+
+/* TASK BADGE */
+.task-num { font-family:'Montserrat',sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--peach); display:inline-block; border:1px solid rgba(232,168,124,0.3); padding:0.25rem 0.7rem; border-radius:4px; margin-bottom:0.8rem; }
+
+/* QUOTE */
+.quote { border-left:3px solid var(--peach); padding:0.8rem 1.2rem; margin-bottom:1.5rem; background:rgba(232,168,124,0.04); border-radius:0 6px 6px 0; }
+.quote p { font-style:italic; color:var(--peach-light); font-size:1rem; line-height:1.5; }
+
+/* BROWSER MOCKUP */
+.browser-frame { border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); background:#111; }
+.browser-bar { height:28px; background:#1a1a1a; display:flex; align-items:center; padding:0 10px; gap:6px; }
+.browser-dot { width:8px; height:8px; border-radius:50%; background:#333; }
+.browser-dot.r { background:#ff5f56; }
+.browser-dot.y { background:#ffbd2e; }
+.browser-dot.g { background:#27c93f; }
+.browser-frame img { width:100%; display:block; }
+.browser-frame video { width:100%; display:block; cursor:pointer; }
+.browser-frame .placeholder { height:300px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#0a1e2b,#0d2938); color:var(--text-faint); font-size:0.8rem; font-style:italic; }
+.play-hint { text-align:center; margin-top:0.6rem; font-size:0.75rem; color:var(--peach); font-family:'Montserrat',sans-serif; font-weight:700; letter-spacing:0.08em; }
+
+/* SCROLL ARROW */
+.scroll-arrow { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); text-align:center; z-index:10; animation:bounce 2s infinite; cursor:pointer; }
+.scroll-arrow span { display:block; font-family:'Montserrat',sans-serif; font-size:0.6rem; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.4rem; }
+.scroll-arrow .arrow { font-size:1.8rem; color:var(--teal-bright); }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+/* DEMO LINK */
+.demo-link { display:inline-flex; align-items:center; gap:0.4rem; color:var(--teal-bright); font-family:'Montserrat',sans-serif; font-size:0.72rem; font-weight:700; text-decoration:none; letter-spacing:0.08em; text-transform:uppercase; margin-top:1rem; transition:color 0.2s; }
+.demo-link:hover { color:#00ffec; }
+
+/* STAT */
+.stat { text-align:center; padding:0.8rem; }
+.stat-number { font-family:'Montserrat',sans-serif; font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; color:var(--teal-bright); }
+.stat-label { font-size:0.68rem; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.1em; margin-top:0.2rem; font-family:'Montserrat',sans-serif; font-weight:600; }
+
+/* CARD */
+.card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:1.3rem; }
+.card h4 { font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-bright); margin-bottom:0.4rem; }
+.card p { font-size:0.8rem; color:var(--text-faint); line-height:1.6; }
+
+/* PRICING */
+.price-card { background:rgba(0,180,160,0.06); border:2px solid var(--teal); border-radius:12px; padding:2rem; text-align:center; }
+.price-tag { font-family:'Montserrat',sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:900; color:var(--teal-bright); }
+.price-period { font-size:0.75rem; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.1em; }
+.includes-list { list-style:none; text-align:left; margin-top:1.2rem; }
+.includes-list li { padding:0.35rem 0; font-size:0.78rem; color:var(--text-mid); border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:center; gap:0.4rem; }
+.includes-list li::before { content:"\2713"; color:var(--teal-bright); font-weight:700; }
+.discount-badge { display:inline-block; background:var(--peach); color:var(--dark); font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:800; padding:0.35rem 0.9rem; border-radius:4px; text-transform:uppercase; letter-spacing:0.06em; margin-top:1rem; }
+
+/* FAQ */
+.faq-item { padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.faq-q { font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; color:var(--peach); margin-bottom:0.3rem; }
+.faq-a { font-size:0.8rem; color:var(--text-faint); }
+
+/* SIGNATURE */
+.sig-line { border-bottom:1px solid rgba(255,255,255,0.25); padding-bottom:0.5rem; margin-top:2rem; min-width:220px; display:inline-block; }
+.sig-label { font-size:0.65rem; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.1em; margin-top:0.3rem; }
+
+/* UI */
+.slide-counter { position:fixed; bottom:1.2rem; right:1.5rem; font-family:'Montserrat',sans-serif; font-size:0.65rem; font-weight:600; color:rgba(255,255,255,0.25); letter-spacing:0.08em; z-index:100; }
+.nav-hint { position:fixed; bottom:1.2rem; left:1.5rem; font-family:'Montserrat',sans-serif; font-size:0.55rem; color:rgba(255,255,255,0.15); letter-spacing:0.08em; z-index:100; }
+
+/* PRINT */
+@media print {
+  .deck { overflow:visible; scroll-snap-type:none; }
+  .slide { min-height:100vh; page-break-after:always; page-break-inside:avoid; }
+  .slide-counter, .nav-hint { display:none; }
+}
+@media (max-width:768px) {
+  /* Snap stays on but slides adapt to portrait */
+  .slide { min-height:100vh; padding:2rem 1.2rem; }
+
+  /* Canva image slides - contain with matching background, no black bars */
+  .slide-img { background:#0A2A28; }
+  .slide-img img { width:100%; height:100%; object-fit:contain; }
+
+  /* HTML slides */
+  .slide-html { padding:2rem 1.2rem; }
+  .inner { width:100%; }
+
+  /* Stack all grids */
+  .split { grid-template-columns:1fr; gap:1.2rem; }
+  .split-even { grid-template-columns:1fr; gap:1.2rem; }
+  .grid-2 { grid-template-columns:1fr; gap:0.8rem; }
+  .grid-4 { grid-template-columns:1fr 1fr; gap:0.6rem; }
+
+  /* Force ALL inline grid overrides to stack on mobile */
+  [style*="grid-template-columns"] { grid-template-columns:1fr !important; gap:1rem !important; }
+
+  /* Typography */
+  h2 { font-size:1.2rem; margin-bottom:0.7rem; }
+  h3 { font-size:0.85rem; }
+  .label { font-size:0.55rem; }
+  .task-num { font-size:0.5rem; padding:0.2rem 0.5rem; }
+  p { font-size:0.8rem; line-height:1.6; }
+
+  /* Quote */
+  .quote { padding:0.5rem 0.8rem; margin-bottom:0.8rem; }
+  .quote p { font-size:0.85rem; }
+
+  /* Stats */
+  .stat-number { font-size:1.4rem; }
+  .stat-label { font-size:0.6rem; }
+
+  /* Cards */
+  .card { padding:0.8rem; }
+  .card h4 { font-size:0.65rem; }
+  .card p { font-size:0.7rem; line-height:1.5; }
+
+  /* Browser mockups - smaller */
+  .browser-frame { border-radius:6px; }
+  .browser-bar { height:22px; padding:0 8px; }
+  .browser-dot { width:6px; height:6px; }
+  .browser-frame .placeholder { height:140px; }
+  .browser-frame video, .browser-frame img { max-height:250px; object-fit:cover; }
+  .play-hint { font-size:0.65rem; }
+
+  /* Pricing */
+  .price-card { padding:1.2rem; }
+  .price-tag { font-size:1.8rem; }
+  .includes-list li { font-size:0.7rem; padding:0.25rem 0; }
+  .discount-badge { font-size:0.6rem; padding:0.25rem 0.6rem; }
+
+  /* FAQ */
+  .faq-item { padding:0.5rem 0; }
+  .faq-q { font-size:0.68rem; }
+  .faq-a { font-size:0.72rem; }
+
+  /* Terms */
+  .sig-line { min-width:120px; }
+  .slide [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns:1fr !important; }
+
+  /* Hide desktop-only UI */
+  .scroll-arrow { display:none; }
+  .slide-counter { display:none; }
+  .nav-hint { font-size:0.5rem; }
+
+  /* Demo link */
+  .demo-link { font-size:0.65rem; }
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ========== SLIDE: COVER (Canva static) ========== -->
+<section class="slide slide-img" style="position:relative;">
+  <img src="slides/cover.png" alt="Cover">
+  <div class="scroll-arrow" onclick="document.getElementById('deck').scrollBy({top:window.innerHeight,behavior:'smooth'})">
+    <span>Click to begin</span>
+    <div class="arrow">&#8595;</div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: SOCIAL PROOF (Canva static - high-res) ========== -->
+<section class="slide slide-img"><img src="slides/social-proof.png" alt="Clinics we've worked with"></section>
+
+<!-- ========== SLIDE: WHAT YOU'VE BUILT (editable) ========== -->
+<section class="slide slide-html" data-editable="true">
+  <div class="dot-overlay"></div>
+  <div class="glow glow-tl"></div>
+  <div class="inner">
+    <div class="split" style="grid-template-columns:1fr 2fr; gap:2.5rem;">
+      <div style="text-align:center;">
+        <p class="label label-peach">Your clinic right now</p>
+        <h2 style="font-size:clamp(1.2rem,2.5vw,1.8rem);">What You've <span class="teal">Built Already</span></h2>
+        <div style="width:100%; max-width:280px; height:300px; border-radius:10px; margin-top:1.5rem; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center;"><p style="font-size:0.7rem; color:var(--text-faint); font-style:italic;">Owner photo</p></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div class="card" style="display:flex; gap:0.8rem; align-items:flex-start; padding:1rem;"><span style="color:var(--teal-bright); font-size:1.1rem; font-weight:700; flex-shrink:0;">&#10003;</span><p style="font-size:0.82rem; color:var(--text-mid); line-height:1.5; margin:0;">14 years delivering skin transformations in Armadale</p></div>
+        <div class="card" style="display:flex; gap:0.8rem; align-items:flex-start; padding:1rem;"><span style="color:var(--teal-bright); font-size:1.1rem; font-weight:700; flex-shrink:0;">&#10003;</span><p style="font-size:0.82rem; color:var(--text-mid); line-height:1.5; margin:0;">Perfect 5.0 Google rating with 89 five-star reviews</p></div>
+        <div class="card" style="display:flex; gap:0.8rem; align-items:flex-start; padding:1rem;"><span style="color:var(--teal-bright); font-size:1.1rem; font-weight:700; flex-shrink:0;">&#10003;</span><p style="font-size:0.82rem; color:var(--text-mid); line-height:1.5; margin:0;">Loyal clients returning for over a decade</p></div>
+        <div class="card" style="display:flex; gap:0.8rem; align-items:flex-start; padding:1rem;"><span style="color:var(--teal-bright); font-size:1.1rem; font-weight:700; flex-shrink:0;">&#10003;</span><p style="font-size:0.82rem; color:var(--text-mid); line-height:1.5; margin:0;">Medical-grade Jan Marini product range</p></div>
+        <div class="card" style="display:flex; gap:0.8rem; align-items:flex-start; padding:1rem;"><span style="color:var(--teal-bright); font-size:1.1rem; font-weight:700; flex-shrink:0;">&#10003;</span><p style="font-size:0.82rem; color:var(--text-mid); line-height:1.5; margin:0;">Boutique, personalised experience clients rave about</p></div>
+        <div class="card" style="display:flex; gap:0.8rem; align-items:flex-start; padding:1rem;"><span style="color:var(--teal-bright); font-size:1.1rem; font-weight:700; flex-shrink:0;">&#10003;</span><p style="font-size:0.82rem; color:var(--text-mid); line-height:1.5; margin:0;">Abbey on the team delivering results clients love</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: TASK 1 (editable) ========== -->
+<section class="slide slide-html alt" data-editable="true">
+  <div class="glow glow-br"></div>
+  <div class="inner">
+    <p class="label">Quick wins you could implement now</p>
+    <div class="split">
+      <div>
+        <span class="task-num">Task One</span>
+        <h2>Branding & Positioning</h2>
+        <div class="quote"><p>"show off your incredible results"</p></div>
+        <p>You have a 5-month acne transformation that would stop anyone scrolling. But right now only 223 people can see it. Lead with your results, not your treatment menu - position Amar as THE skin transformation expert in Armadale.</p>
+        
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/ba-collage.jpg" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: TASK 2 (editable) ========== -->
+<section class="slide slide-html" data-editable="true">
+  <div class="glow glow-tl"></div>
+  <div class="inner">
+    <div class="split">
+      <div>
+        <span class="task-num">Task Two</span>
+        <h2>Website & Online Presence</h2>
+        <div class="quote"><p>"get found in Armadale"</p></div>
+        <p>Right now every person in Armadale searching 'skin clinic near me' finds your competitors - not you. You have zero pages indexed on Google. One website with concern-based landing pages changes everything.</p>
+        <a href="https://aiwithsoulofficial.github.io/amar-demo/homepage.html" target="_blank" class="demo-link">View Mockup Website &#8594;</a>
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/screenshot-homepage.jpg" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: TASK 3 (editable) ========== -->
+<section class="slide slide-html alt" data-editable="true">
+  <div class="glow glow-br"></div>
+  <div class="inner">
+    <div class="split">
+      <div>
+        <span class="task-num">Task Three</span>
+        <h2>Offer & Pricing Strategy</h2>
+        <div class="quote"><p>"Amar - acne and skin rejuvenation expert"</p></div>
+        <p>Position a free skin assessment as your front door. Non-threatening, builds trust, gets people in the chair. Once they experience your expertise, the treatment plan sells itself.</p>
+        <a href="https://aiwithsoulofficial.github.io/amar-demo/assessment.html" target="_blank" class="demo-link">View Skin Assessment Demo &#8594;</a>
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/screenshot-assessment.jpg" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: TASK 4 (editable) ========== -->
+<section class="slide slide-html" data-editable="true">
+  <div class="glow glow-tl"></div>
+  <div class="inner">
+    <div class="split">
+      <div>
+        <span class="task-num">Task Four</span>
+        <h2>Geo-Targeted Meta Ads</h2>
+        <div class="quote"><p>"your 5-month acne transformation is your best ad"</p></div>
+        <p>Your before-and-after photos do in 2 seconds what 500 words of copy can't. We run them as geo-targeted Meta ads across Armadale, South Yarra, Toorak, Malvern and surrounding suburbs.</p>
+        
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/ad-mockups-combined.png" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: TASK 5 (editable) ========== -->
+<section class="slide slide-html alt" data-editable="true">
+  <div class="glow glow-br"></div>
+  <div class="inner">
+    <div class="split">
+      <div>
+        <span class="task-num">Task Five</span>
+        <h2>CRM & Systems</h2>
+        <div class="quote"><p>"turn happy clients into 5-star reviews"</p></div>
+        <p>You have 89 reviews at a perfect 5.0 - incredible. Automated SMS after every appointment keeps that momentum going without you lifting a finger. More reviews = higher in search = more bookings.</p>
+        
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/review-sms-mockup.png" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: TASK 6 (editable) ========== -->
+<section class="slide slide-html" data-editable="true">
+  <div class="glow glow-tl"></div>
+  <div class="inner">
+    <div class="split">
+      <div>
+        <span class="task-num">Task Six</span>
+        <h2>Tech Stack & Operations</h2>
+        <div class="quote"><p>"every lead within 5 minutes"</p></div>
+        <p>When someone enquires, every minute matters. We install automated SMS, email and call-back systems that contact every new lead within minutes - while they're still thinking about their skin.</p>
+        
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/speed-to-lead-mockup.png" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: BONUS (editable) ========== -->
+<section class="slide slide-html teal-bg" data-editable="true">
+  <div class="dot-overlay"></div>
+  <div class="glow glow-br"></div>
+  <div class="inner">
+    <div class="split">
+      <div>
+        <span class="task-num" style="border-color:var(--peach); color:var(--peach);">Bonus</span>
+        <h2>Interactive Skin Assessment Quiz</h2>
+        <div class="quote"><p>"capture leads while you sleep"</p></div>
+        <p>Potential clients answer 5-6 questions about their skin concerns, get a personalised result, and you capture their name, email and phone. Works 24/7 - every quiz completion is a warm lead with their concerns already mapped before they walk in.</p>
+        <a href="https://aiwithsoulofficial.github.io/amar-demo/assessment.html" target="_blank" class="demo-link">Try the Quiz Demo &#8594;</a>
+      </div>
+      <div>
+        <div class="browser-frame">
+  <div class="browser-bar"><span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span></div>
+  <img src="assets/screenshot-assessment.jpg" alt="Mockup">
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STATIC CANVA SLIDES ========== -->
+<section class="slide slide-img"><img src="slides/transition.png" alt="That's where we step in"></section>
+<section class="slide slide-img"><img src="slides/campaign-process.png" alt="Campaign process"></section>
+<section class="slide slide-img"><img src="slides/sales-process.png" alt="Sales process"></section>
+<section class="slide slide-img"><img src="slides/branding.png" alt="Branding"></section>
+<section class="slide slide-img"><img src="slides/systems.png" alt="Systems installed"></section>
+<section class="slide slide-img"><img src="slides/your-part.png" alt="Your part in success"></section>
+<section class="slide slide-img"><img src="slides/case-studies-12.png" alt="Case studies 1 and 2"></section>
+<section class="slide slide-img"><img src="slides/case-studies-34.png" alt="Case studies 3 and 4"></section>
+
+<!-- ========== SLIDE: GOALS (editable) ========== -->
+<section class="slide slide-html" data-editable="true">
+  <div class="dot-overlay"></div>
+  <div class="glow glow-tl"></div>
+  <div class="inner">
+    <p class="label label-peach">Tailored for Amar Skin Clinic</p>
+    <h2>Your Goals & <span class="teal">Objectives</span></h2>
+    <div style="max-width:800px; margin-top:1rem;">
+      <div class='card' style='padding:1.2rem; margin-bottom:0.8rem;'><h4>1. Get Found Online</h4><p>Go from zero web presence to ranking for 'skin clinic Armadale' and every treatment + suburb combination that matters.</p></div><div class='card' style='padding:1.2rem; margin-bottom:0.8rem;'><h4>2. Drive New Leads</h4><p>Geo-targeted advertising using your stunning B&A results to reach women in Armadale, South Yarra, Toorak and surrounding suburbs.</p></div><div class='card' style='padding:1.2rem; margin-bottom:0.8rem;'><h4>3. Convert Leads to Bookings</h4><p>Free skin assessment as front door with automated follow-up and deposit collection.</p></div><div class='card' style='padding:1.2rem; margin-bottom:0.8rem;'><h4>4. Review Momentum</h4><p>Maintain your perfect 5.0 rating and grow past 150+ reviews to dominate local search.</p></div><div class='card' style='padding:1.2rem;'><h4>5. Digital Capture</h4><p>Build an email and SMS list from 14 years of loyal clients so you can market to them directly - not just hope they rebook.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SLIDE: INVESTMENT (editable) ========== -->
+<section class="slide slide-html alt" data-editable="true">
+  <div class="glow glow-br"></div>
+  <div class="inner">
+    <div class="split-even">
+      <div>
+        <p class="label">Investment</p>
+        <h2>Meta Ads &<br><span class="teal">Lead Follow Up</span></h2>
+        <p style="margin-bottom:1.5rem;">We do all the hard work. You wait for leads and do what you're best at - providing an incredible service.</p>
+        <div class="faq-item">
+          <p class="faq-q">What should my ad spend be?</p>
+          <p class="faq-a">We recommend $30/day minimum.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Do I have to make the videos?</p>
+          <p class="faq-a">No. We do that. We just ask for raw footage - authentic works best.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Are calls, SMS & emails included?</p>
+          <p class="faq-a">All inclusive - compliance cert, calling leads, SMS credits, email, CRM access.</p>
+        </div>
+      </div>
+      <div>
+        <div class="price-card">
+          <p class="price-period">Weekly</p>
+          <div class="price-tag">$699</div>
+          <ul class="includes-list">
+            <li>Creating Offers & Ad Copy</li>
+            <li>Creating Content for Ads</li>
+            <li>Email & SMS Notifications</li>
+            <li>CRM Automations</li>
+            <li>Calling & Responding to Leads</li>
+            <li>Technical Set-Up</li>
+            <li>Ongoing Support</li>
+          </ul>
+          <div class="discount-badge">Aesthetic Business Masters Discount $499</div>
+          <p style="font-size:0.65rem; color:var(--text-faint); margin-top:0.4rem;">PLUS Save $799 on Set Up Fee</p>
+          <p style="font-size:0.6rem; color:var(--text-faint); margin-top:0.2rem;">(Offer expires June 30th)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STATIC CANVA SLIDES (services + close) ========== -->
+<!-- ========== SLIDE: BONUS GEO (HTML branded) ========== -->
+<section class="slide slide-html teal-bg">
+  <div class="dot-overlay"></div>
+  <div class="glow glow-br"></div>
+  <div class="inner">
+    <div class="split-even">
+      <div>
+        <p class="label label-peach">Sign On Bonus</p>
+        <h2>Bonus <span class="peach">GEO</span></h2>
+        <p>If you sign up today, Kelly will add GEO coding into your website to get you FOUND on ChatGPT, Claude and other AI search tools.</p>
+        <p class="mt-1" style="font-size:0.8rem;">Normally <span style="text-decoration:line-through; color:var(--text-faint);">$499</span> - <span class="peach" style="font-weight:700;">FREE with your package</span></p>
+      </div>
+      <div>
+        <div class="card" style="background:rgba(0,0,0,0.15); border-color:rgba(255,255,255,0.1);">
+          <h4 style="color:var(--peach); margin-bottom:0.8rem;">What This Means For You</h4>
+          <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <div style="display:flex; gap:0.5rem; font-size:0.8rem; color:var(--text-mid);"><span style="color:var(--teal-bright); flex-shrink:0;">&#10003;</span> Show up when they search your speciality + suburb</div>
+            <div style="display:flex; gap:0.5rem; font-size:0.8rem; color:var(--text-mid);"><span style="color:var(--teal-bright); flex-shrink:0;">&#10003;</span> Google Maps visibility with structured location data</div>
+            <div style="display:flex; gap:0.5rem; font-size:0.8rem; color:var(--text-mid);"><span style="color:var(--teal-bright); flex-shrink:0;">&#10003;</span> AI search ready - Claude, ChatGPT, Perplexity</div>
+            <div style="display:flex; gap:0.5rem; font-size:0.8rem; color:var(--text-mid);"><span style="color:var(--teal-bright); flex-shrink:0;">&#10003;</span> Faster page load and better Google rankings</div>
+            <div style="display:flex; gap:0.5rem; font-size:0.8rem; color:var(--text-mid);"><span style="color:var(--teal-bright); flex-shrink:0;">&#10003;</span> Compounds over time - unlike paid ads</div>
+            <div style="display:flex; gap:0.5rem; font-size:0.8rem; color:var(--text-mid);"><span style="color:var(--teal-bright); flex-shrink:0;">&#10003;</span> No redesign needed - works behind the scenes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide slide-img"><img src="slides/service-google.png" alt="Google Ads"></section>
+<section class="slide slide-img"><img src="slides/service-website.png" alt="Website Build"></section>
+<section class="slide slide-img"><img src="slides/service-email.png" alt="Email & SMS"></section>
+<section class="slide slide-img"><img src="slides/service-social.png" alt="Social Media"></section>
+<section class="slide slide-img"><img src="slides/service-seo.png" alt="SEO & GEO"></section>
+<section class="slide slide-img"><img src="slides/ready-to-start.png" alt="Ready to start"></section>
+
+<!-- ========== SLIDE: TERMS (editable - clinic name) ========== -->
+<section class="slide slide-html" data-editable="true">
+  <div class="dot-overlay"></div>
+  <div class="inner">
+    <p class="label">Final step</p>
+    <h2>Project <span class="teal">Acceptance</span></h2>
+    <p style="max-width:700px;">This proposal remains confidential between Mint Peach Media and <strong>Amar Skin Clinic</strong> and must not be disclosed to any third party without written approval of Mint Peach Media.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5rem; margin-top:2rem;">
+      <div class="card">
+        <h4>Agreement</h4>
+        <p>Month by month. No lock-in. 30 days written notice to terminate.</p>
+      </div>
+      <div class="card">
+        <h4>Payment</h4>
+        <p>Management fee billed at the start of each week.</p>
+      </div>
+      <div class="card">
+        <h4>Commencement</h4>
+        <p>Project begins from date initial payment is received.</p>
+      </div>
+    </div>
+    <div id="sig-section" style="margin-top:2rem; max-width:600px;">
+      <div style="display:grid; grid-template-columns:2fr 1fr; gap:1.5rem; align-items:end;">
+        <div>
+          <p class="sig-label" style="margin-bottom:0.4rem;">Sign below</p>
+          <div style="position:relative; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:8px; overflow:hidden;">
+            <canvas id="sig-canvas" width="400" height="140" style="width:100%; height:140px; cursor:crosshair; display:block; touch-action:none;"></canvas>
+            <button onclick="clearSig()" style="position:absolute; top:6px; right:6px; background:rgba(255,255,255,0.1); border:none; color:var(--text-faint); font-size:0.6rem; padding:3px 8px; border-radius:3px; cursor:pointer; font-family:'Montserrat',sans-serif;">Clear</button>
+          </div>
+          <input id="sig-name" type="text" placeholder="Full name" style="margin-top:0.6rem; width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:0.7rem 1rem; font-size:0.85rem; color:var(--white); font-family:'Open Sans',sans-serif; outline:none;">
+        </div>
+        <div>
+          <p class="sig-label" style="margin-bottom:0.4rem;">Date</p>
+          <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:0.8rem 1rem; font-size:0.85rem; color:var(--text-mid);" id="sig-date"></div>
+        </div>
+      </div>
+      <button id="accept-btn" onclick="acceptProposal()" style="margin-top:1.5rem; background:var(--teal-bright); color:var(--dark); border:none; padding:0.9rem 2.5rem; font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; border-radius:6px; cursor:pointer; transition:all 0.2s;">Accept Proposal</button>
+      <div id="accept-confirm" style="display:none; margin-top:1.5rem; padding:1.2rem; background:rgba(0,212,188,0.1); border:1px solid var(--teal); border-radius:8px;">
+        <p style="color:var(--teal-bright); font-family:'Montserrat',sans-serif; font-weight:700; font-size:0.85rem;">Proposal Accepted</p>
+        <p style="font-size:0.8rem; color:var(--text-mid); margin-top:0.3rem;">Thank you! We'll be in touch shortly to get started.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="slide-counter" id="counter">1 / --</div>
+<div class="nav-hint">Arrow keys to navigate &middot; F for fullscreen</div>
+
+<script>
+const deck = document.getElementById('deck');
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('counter');
+const total = slides.length;
+counter.textContent = '1 / ' + total;
+
+function updateCounter() {
+  const current = Math.round(deck.scrollTop / window.innerHeight) + 1;
+  counter.textContent = current + ' / ' + total;
+}
+deck.addEventListener('scroll', updateCounter);
+
+document.addEventListener('keydown', function(e) {
+  const h = window.innerHeight;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); deck.scrollBy({top:h, behavior:'smooth'}); }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); deck.scrollBy({top:-h, behavior:'smooth'}); }
+  if (e.key === 'Home') { e.preventDefault(); deck.scrollTo({top:0, behavior:'smooth'}); }
+  if (e.key === 'End') { e.preventDefault(); deck.scrollTo({top:deck.scrollHeight, behavior:'smooth'}); }
+  if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+});
+
+// Signature pad
+const canvas = document.getElementById('sig-canvas');
+const ctx = canvas ? canvas.getContext('2d') : null;
+let drawing = false;
+let hasSigned = false;
+
+if (ctx) {
+  ctx.strokeStyle = '#00D4BC';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: (t.clientX - r.left) * (canvas.width / r.width), y: (t.clientY - r.top) * (canvas.height / r.height) };
+  }
+
+  canvas.addEventListener('mousedown', e => { drawing = true; hasSigned = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  canvas.addEventListener('mouseup', () => drawing = false);
+  canvas.addEventListener('mouseleave', () => drawing = false);
+
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; hasSigned = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, {passive:false});
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }, {passive:false});
+  canvas.addEventListener('touchend', () => drawing = false);
+}
+
+// Date
+const dateEl = document.getElementById('sig-date');
+if (dateEl) dateEl.textContent = new Date().toLocaleDateString('en-AU', {day:'numeric', month:'long', year:'numeric'});
+
+function clearSig() {
+  if (ctx) { ctx.clearRect(0, 0, canvas.width, canvas.height); hasSigned = false; }
+}
+
+function acceptProposal() {
+  const name = document.getElementById('sig-name').value.trim();
+  if (!hasSigned) { alert('Please sign above before accepting.'); return; }
+  if (!name) { alert('Please enter your full name.'); return; }
+  const sigData = canvas.toDataURL('image/png');
+  const payload = {
+    clinic: document.title.split(' - ')[0],
+    name: name,
+    date: document.getElementById('sig-date').textContent,
+    signature: sigData,
+    url: window.location.href
+  };
+
+  // Send notification webhook if configured
+  const webhook = '';
+  if (webhook && !webhook.includes('{{')) {
+    fetch(webhook, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  }
+
+  document.getElementById('accept-btn').style.display = 'none';
+  document.getElementById('accept-confirm').style.display = 'block';
+}
+</script>
+</body>
+</html>
